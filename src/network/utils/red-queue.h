@@ -34,7 +34,7 @@
  * SUCH DAMAGE.
  *
  *
- * This port: 
+ * This port:
  *
  * Copyright © 2011 Marcos Talau
  *
@@ -99,10 +99,10 @@ public:
   {
     // Early probability drops
     uint32_t unforcedDrop;
-    // Forced drops, qavg > max threshold  
-    uint32_t forcedDrop;  
+    // Forced drops, qavg > max threshold
+    uint32_t forcedDrop;
     // Drops due to queue limits
-    uint32_t qLimDrop;  
+    uint32_t qLimDrop;
   } Stats;
 
   // Drop types
@@ -172,11 +172,16 @@ private:
   virtual Ptr<Packet> DoDequeue (void);
   virtual Ptr<const Packet> DoPeek (void) const;
 
+  // ...
   void InitializeParams (void);
+  // Compute the average queue size
   double Estimator (uint32_t nQueued, uint32_t m, double qAvg, double qW);
+  // Check if packet p needs to be dropped due to probability mark
   uint32_t DropEarly (Ptr<Packet> p, uint32_t qSize);
+  // ...
   double CalculatePNew (double qAvg, double maxTh, bool gentle, double vA,
                         double vB, double vC, double vD, double maxP);
+  // ...
   double ModifyP(double p, uint32_t count, uint32_t countBytes,
                  uint32_t meanPktSize, bool wait, uint32_t size);
 
@@ -197,10 +202,10 @@ private:
   bool m_isWait;
   // True to increases dropping prob. slowly when ave queue exceeds maxthresh
   bool m_isGentle;
-  // Min avg length threshold (bytes), should be >= 2*minTh
+  // Min avg length threshold (bytes)
   double m_minTh;
   // Max avg length threshold (bytes), should be >= 2*minTh
-  double m_maxTh; 
+  double m_maxTh;
   // Queue limit in bytes / packets
   uint32_t m_queueLimit;
   // Queue weight given to cur q size sample
@@ -218,12 +223,12 @@ private:
   // Prob. of packet drop before "count"
   double m_vProb1;
   // v_prob = v_a * v_ave + v_b
-  double m_vA;		
+  double m_vA;
   double m_vB;
   // Used for "gentle" mode
-  double m_vC;		
+  double m_vC;
   // Used for "gentle" mode
-  double m_vD;		
+  double m_vD;
   // Current max_p
   double m_curMaxP;
   // Prob. of packet drop
@@ -237,17 +242,18 @@ private:
   // packet time constant in packets/second
   double m_ptc;
   // Average queue length
-  double m_qAvg; 
+  double m_qAvg;
   // number of packets since last random number generation
-  uint32_t m_count; 
-  /* 
+  uint32_t m_count;
+  /*
    * 0 for default RED
-   * 1 for not dropping/marking when the instantaneous queue is much below the,
-   * average. (NOT IMPLEMENTED YET)
+   * 1 experimental (see red-queue.cc)
+   * 2 experimental (see red-queue.cc)
+   * 3 use Idle packet size in the ptc
    */
   uint32_t m_cautious;
   // Start of current idle period
-  Time m_idleTime; 
+  Time m_idleTime;
 };
 
 }; // namespace ns3

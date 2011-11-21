@@ -109,7 +109,7 @@ BuildAppsTest (uint32_t test)
       sinkApp.Stop (Seconds (sink_stop_time));
 
       // Connection one
-      // Clientes are in left side
+      // Clients are in left side
       /*
        * Create the OnOff applications to send TCP to the server
        * onoffhelper is a client that send data to TCP destination

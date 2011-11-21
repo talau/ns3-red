@@ -58,7 +58,7 @@
  */
 
 /*
- * PORT NOTE: Almost all comments also been ported from NS-2
+ * PORT NOTE: Almost all comments have also been ported from NS-2
  */
 
 #include "ns3/log.h"
@@ -190,6 +190,7 @@ void
 RedQueue::SetTh (double min, double max)
 {
   NS_LOG_FUNCTION (this << min << max);
+  NS_ASSERT(min <= max);
   m_minTh = min;
   m_maxTh = max;
 }
@@ -225,6 +226,7 @@ RedQueue::DoEnqueue (Ptr<Packet> p)
       nQueued = m_packets.size ();
     }
 
+  // simulate number of packets arrival during idle period
   uint32_t m = 0;
 
   if (m_idle == 1)
@@ -350,13 +352,6 @@ RedQueue::InitializeParams (void)
   double th_diff = (m_maxTh - m_minTh);
   if (th_diff == 0)
     {
-      /*
-       * XXX this last check was added by a person who knows
-       * nothing of this code just to stop FP div by zero.
-       * Values for thresholds were equal at time 0.  If you
-       * know what should be here, please cleanup and remove
-       * this comment.
-       */
       th_diff = 1.0; 
     }
   m_vA = 1.0 / th_diff;
@@ -427,6 +422,7 @@ RedQueue::Estimator (uint32_t nQueued, uint32_t m, double qAvg, double qW)
   return newAve;
 }
 
+// Check if packet p needs to be dropped due to probability mark
 uint32_t
 RedQueue::DropEarly (Ptr<Packet> p, uint32_t qSize)
 {
@@ -488,6 +484,7 @@ RedQueue::DropEarly (Ptr<Packet> p, uint32_t qSize)
   return 0; // no drop/mark
 }
 
+// Returns a probability 
 double
 RedQueue::CalculatePNew (double qAvg, double maxTh, bool isGentle, double vA,
                          double vB, double vC, double vD, double maxP)

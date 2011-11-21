@@ -74,7 +74,7 @@ RedQueueTestCase::RunRedTest(StringValue mode)
       queue->SetQueueLimit (qSize * pktSize);
     }
 
-  Ptr<Packet> p1, p2, p3, p4, p5, p6, p7, p8, p9, p10;
+  Ptr<Packet> p1, p2, p3, p4, p5, p6, p7, p8;
   p1 = Create<Packet> (pktSize);
   p2 = Create<Packet> (pktSize);
   p3 = Create<Packet> (pktSize);
@@ -83,8 +83,6 @@ RedQueueTestCase::RunRedTest(StringValue mode)
   p6 = Create<Packet> (pktSize);
   p7 = Create<Packet> (pktSize);
   p8 = Create<Packet> (pktSize);
-  p9 = Create<Packet> (pktSize);
-  p10 = Create<Packet> (pktSize);
 
   NS_TEST_EXPECT_MSG_EQ (queue->GetQueueSize (), 0 * modeSize, "There should be no packets in there");
   queue->Enqueue (p1);
@@ -170,10 +168,10 @@ RedQueueTestCase::RunRedTest(StringValue mode)
   Enqueue(queue, pktSize, 300);
   st = StaticCast<RedQueue> (queue)->GetStats ();
   drop.test3 = st.unforcedDrop + st.forcedDrop + st.qLimDrop;
-  NS_TEST_EXPECT_MSG_NE (drop.test3, 0, "There should some dropped packets");
+  NS_TEST_EXPECT_MSG_NE (drop.test3, 0, "There should be some dropped packets");
 
 
-  // test 4: reduced maxTh, this cause more drops
+  // test 4: reduced maxTh, this causes more drops
   maxTh = 100 * modeSize;
   queue = CreateObject<RedQueue> ();
   NS_TEST_EXPECT_MSG_EQ (queue->SetAttributeFailSafe ("Mode", mode), true,
@@ -189,7 +187,7 @@ RedQueueTestCase::RunRedTest(StringValue mode)
   Enqueue(queue, pktSize, 300);
   st = StaticCast<RedQueue> (queue)->GetStats ();
   drop.test4 = st.unforcedDrop + st.forcedDrop + st.qLimDrop;
-  NS_TEST_EXPECT_MSG_GT (drop.test4, drop.test3, "Test 4 need to have more drops than test 3");
+  NS_TEST_EXPECT_MSG_GT (drop.test4, drop.test3, "Test 4 should have more drops than test 3");
 
 
   // test 5: change drop probability to a high value (LInterm)
@@ -210,7 +208,7 @@ RedQueueTestCase::RunRedTest(StringValue mode)
   Enqueue(queue, pktSize, 300);
   st = StaticCast<RedQueue> (queue)->GetStats ();
   drop.test5 = st.unforcedDrop + st.forcedDrop + st.qLimDrop;
-  NS_TEST_EXPECT_MSG_GT (drop.test5, drop.test3, "Test 5 need to have more drops than test 3");
+  NS_TEST_EXPECT_MSG_GT (drop.test5, drop.test3, "Test 5 should have more drops than test 3");
 
 
   // test 6: disable Gentle param
@@ -230,7 +228,7 @@ RedQueueTestCase::RunRedTest(StringValue mode)
   Enqueue(queue, pktSize, 300);
   st = StaticCast<RedQueue> (queue)->GetStats ();
   drop.test6 = st.unforcedDrop + st.forcedDrop + st.qLimDrop;
-  NS_TEST_EXPECT_MSG_GT (drop.test6, drop.test3, "Test 6 need to have more drops than test 3");
+  NS_TEST_EXPECT_MSG_GT (drop.test6, drop.test3, "Test 6 should have more drops than test 3");
 
 
   // test 7: disable Wait param
@@ -250,7 +248,7 @@ RedQueueTestCase::RunRedTest(StringValue mode)
   Enqueue(queue, pktSize, 300);
   st = StaticCast<RedQueue> (queue)->GetStats ();
   drop.test7 = st.unforcedDrop + st.forcedDrop + st.qLimDrop;
-  NS_TEST_EXPECT_MSG_GT (drop.test7, drop.test3, "Test 7 need to have more drops than test 3");
+  NS_TEST_EXPECT_MSG_GT (drop.test7, drop.test3, "Test 7 should have more drops than test 3");
 }
 
 void 
