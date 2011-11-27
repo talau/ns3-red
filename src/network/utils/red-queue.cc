@@ -187,12 +187,12 @@ RedQueue::SetQueueLimit (uint32_t lim)
 }
 
 void
-RedQueue::SetTh (double min, double max)
+RedQueue::SetTh (double minTh, double maxTh)
 {
-  NS_LOG_FUNCTION (this << min << max);
-  NS_ASSERT(min <= max);
-  m_minTh = min;
-  m_maxTh = max;
+  NS_LOG_FUNCTION (this << minTh << maxTh);
+  NS_ASSERT(minTh <= maxTh);
+  m_minTh = minTh;
+  m_maxTh = maxTh;
 }
 
 RedQueue::Stats
@@ -276,7 +276,7 @@ RedQueue::DoEnqueue (Ptr<Packet> p)
           m_countBytes = p->GetSize();
           m_old = 1;
         }
-      else if (DropEarly(p, nQueued))
+      else if (DropEarly (p, nQueued))
         {
           NS_LOG_LOGIC ("DropEarly returns 1");
           dropType = DTYPE_UNFORCED;

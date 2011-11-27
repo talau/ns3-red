@@ -158,7 +158,7 @@ public:
    * \param min Minimum thresh in bytes or packets.
    * \param max Maximum thresh in bytes or packets.
    */
-  void SetTh(double min, double max);
+  void SetTh(double minTh, double maxTh);
 
   /*
    * Get the RED statistics after running.
