@@ -484,7 +484,7 @@ RedQueue::DropEarly (Ptr<Packet> p, uint32_t qSize)
   return 0; // no drop/mark
 }
 
-// Returns a probability 
+// Returns a probability using these function parameters for the DropEarly funtion
 double
 RedQueue::CalculatePNew (double qAvg, double maxTh, bool isGentle, double vA,
                          double vB, double vC, double vD, double maxP)
@@ -525,6 +525,7 @@ RedQueue::CalculatePNew (double qAvg, double maxTh, bool isGentle, double vA,
   return p;
 }
 
+// Returns a probability using these function parameters for the DropEarly funtion
 double 
 RedQueue::ModifyP (double p, uint32_t count, uint32_t countBytes,
                   uint32_t meanPktSize, bool isWait, uint32_t size)

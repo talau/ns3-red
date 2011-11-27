@@ -178,10 +178,10 @@ private:
   double Estimator (uint32_t nQueued, uint32_t m, double qAvg, double qW);
   // Check if packet p needs to be dropped due to probability mark
   uint32_t DropEarly (Ptr<Packet> p, uint32_t qSize);
-  // ...
+  // Returns a probability using these function parameters for the DropEarly funtion
   double CalculatePNew (double qAvg, double maxTh, bool gentle, double vA,
                         double vB, double vC, double vD, double maxP);
-  // ...
+  // Returns a probability using these function parameters for the DropEarly funtion
   double ModifyP(double p, uint32_t count, uint32_t countBytes,
                  uint32_t meanPktSize, bool wait, uint32_t size);
 
